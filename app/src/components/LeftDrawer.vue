@@ -10,7 +10,7 @@
         opacity: 1,
       }"
     >
-      <RoomsList :rooms="rooms" :loading="loading" />
+      <RoomsList :rooms="rooms" />
     </q-scroll-area>
     <div v-else class="absolute-bottom">
       <wallet-multi-button />
@@ -44,6 +44,7 @@
 import { computed, ref, toRefs } from "vue";
 import { useWorkspace } from "../composables";
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
+import { fetchRooms } from '../api'
 
 import RoomsList from "./RoomsList.vue";
 
@@ -57,12 +58,10 @@ const avatarUrl = computed(() => {
   return `https://dicebear.com/api/human/${seed}.svg`;
 });
 
-const props = defineProps({
-  rooms: Array,
-  loading: Boolean
-});
+const rooms = ref([]);
 
-const { room, loading } = toRefs(props);
+fetchRooms()
+  .then((fetchedRooms) => (rooms.value = fetchedRooms))
 
 </script>
 

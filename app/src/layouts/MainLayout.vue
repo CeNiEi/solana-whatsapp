@@ -4,8 +4,8 @@
       <MainHeader />
     </q-header>
 
-    <q-drawer :width="400" show-if-above side="left" bordered>
-      <LeftDrawer :rooms="rooms" :loading="loading" @selected-room="selectRoom"/>
+    <q-drawer :width="400" show-if-above side="left">
+      <LeftDrawer />
     </q-drawer>
 
     <q-drawer v-model="rightDrawerOpen" side="right" bordered>
@@ -17,7 +17,7 @@
     </q-page-container>
 
     <q-footer bordered class="bg-primary text-white">
-      <MainFooter @added="addChat" />
+      <MainFooter/>
     </q-footer>
   </q-layout>
 </template>
@@ -28,18 +28,6 @@ import RightDrawer from "../components/RightDrawer.vue";
 import MainHeader from "../components/MainHeader.vue";
 import MainFooter from "../components/MainFooter.vue";
 import { toggleRightDrawer, rightDrawerOpen } from "../composables";
-
-import { ref } from 'vue';
-import { fetchRooms } from "../api";
-
-const rooms = ref([]);
-const loading = ref(true);
-
-fetchRooms()
-  .then((fetchedRooms) => (rooms.value = fetchedRooms))
-  .finally(() => (loading.value = false));
-
-//const addChat = chat => rooms.value.push(chat);
 </script>
 
 <style lang="scss">

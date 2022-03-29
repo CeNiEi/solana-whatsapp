@@ -3,7 +3,7 @@
     clickable
     v-ripple
     class="q-pa-md"
-    @click="changeRoom(room)"
+    @click="store.changeCurrentRoom(room)"
     :to="{ name: 'Rooms', params: { room: room.key } }"
   >
     <q-item-section avatar>
@@ -26,12 +26,14 @@
 
 <script setup>
 import { toRefs } from "vue";
-import { changeRoom } from '../composables'
+import { useRoomStore } from '../stores/room';
 
 const props = defineProps({
   room: Object,
 });
 const { room } = toRefs(props);
+
+const store = useRoomStore();
 
 const avatarUrl = `https://dicebear.com/api/avataaars/${room.value.key}.svg`;
 </script>

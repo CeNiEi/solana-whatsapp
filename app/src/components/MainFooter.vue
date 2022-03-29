@@ -27,19 +27,20 @@
 <script setup>
 import { useWallet } from "solana-wallets-vue";
 import { ref, computed } from "vue";
- import { sendMessage } from '../api';
-import { currentRoom } from "../composables";
+import { sendMessage } from '../api';
+import { useRoomStore } from "../stores/room";
+
+const store = useRoomStore();
 
 const content = ref("");
 
 const { connected } = useWallet();
 const canSendMessage = computed(() => content.value);
 
-const emit = defineEmits(['added'])
 const send = async () => {
   if (!canSendMessage.value) return;
-  const chat = await sendMessage(content.value, currentRoom.value.publicKey);
-  emit('added', chat);
+  await sendMessage(content.value, store.currentRoomId);
+  await store.getChats();
   content.value = "";
 };
 </script>

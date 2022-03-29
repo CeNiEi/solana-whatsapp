@@ -27,7 +27,7 @@ describe('clone-whatsapp', () => {
 
     for (var i = 0; i <= 10; ++i) {
       const message = anchor.web3.Keypair.generate();
-      await program.rpc.sendMessage('veganism', room.publicKey, {
+      const res = await program.rpc.sendMessage('temp', room.publicKey, {
         accounts: {
           message: message.publicKey,
           author: program.provider.wallet.publicKey,
@@ -37,6 +37,9 @@ describe('clone-whatsapp', () => {
           message
         ],
       });
+
+      const messageRes = await program.account.message.fetch(message.publicKey);
+      assert.equal(messageRes.author.toBase58(), program.provider.wallet.publicKey.toBase58())
     }
 
     const messages = await program.account.message.all();

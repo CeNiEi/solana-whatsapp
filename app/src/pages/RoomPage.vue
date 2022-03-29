@@ -17,17 +17,16 @@
 </template>
 
 <script setup>
-import { currentRoom } from "../composables";
-import { fetchMessages } from "../api";
 import ChatMessage from "../components/ChatMessage.vue";
+import { useRoomStore } from "../stores/room";
+import { fetchMessages } from "../api";
+import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
-const chats = ref([]);
-const loading = ref(false);
+const store = useRoomStore();
+const chats = ref([])
+store.getChats().then(() => chats.value = store.currentChatList)
 
-fetchMessages(currentRoom.value.key)
-  .then((messages) => (chats.value = messages))
-  .finally(() => (loading.value = false));
 </script>
 
 <style lang="sass">

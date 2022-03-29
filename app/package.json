@@ -17,6 +17,7 @@
     "@solana/web3.js": "^1.36.0",
     "core-js": "^3.6.5",
     "dayjs": "^1.11.0",
+    "pinia": "^2.0.12",
     "quasar": "^2.6.0",
     "solana-wallets-vue": "^0.3.2",
     "vue": "^3.0.0",
