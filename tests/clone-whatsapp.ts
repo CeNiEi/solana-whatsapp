@@ -38,6 +38,8 @@ describe('clone-whatsapp', () => {
         ],
       });
 
+      //await program.provider.connection.confirmTransaction(res, 'confirmed')
+      
       const messageRes = await program.account.message.fetch(message.publicKey);
       assert.equal(messageRes.author.toBase58(), program.provider.wallet.publicKey.toBase58())
     }

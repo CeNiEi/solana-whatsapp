@@ -16,9 +16,6 @@
       <router-view />
     </q-page-container>
 
-    <q-footer bordered class="bg-primary text-white">
-      <MainFooter/>
-    </q-footer>
   </q-layout>
 </template>
 

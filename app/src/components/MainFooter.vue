@@ -1,5 +1,5 @@
 <template>
-  <q-toolbar v-if="connected">
+  <q-toolbar>
     <q-toolbar-title>
       <q-input
         class="q-pa-sm"
@@ -19,9 +19,6 @@
       </q-input>
     </q-toolbar-title>
   </q-toolbar>
-  <q-toolbar v-else class="q-pa-sm">
-    <q-toolbar-title>Connect to Start Chatting</q-toolbar-title>
-  </q-toolbar>
 </template>
 
 <script setup>
@@ -33,14 +30,12 @@ import { useRoomStore } from "../stores/room";
 const store = useRoomStore();
 
 const content = ref("");
-
-const { connected } = useWallet();
 const canSendMessage = computed(() => content.value);
 
 const send = async () => {
   if (!canSendMessage.value) return;
-  await sendMessage(content.value, store.currentRoomId);
-  await store.getChats();
+  const newChat = await sendMessage(content.value, store.currentRoomId);
+  store.addChat(newChat)
   content.value = "";
 };
 </script>

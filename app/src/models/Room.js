@@ -12,6 +12,9 @@ export class Room {
     get key() {
         return this.publicKey.toBase58();
     }
+    get raw_public_key() {
+        return this.publicKey;
+    }
     get group_name() {
         return this.name;
     }
