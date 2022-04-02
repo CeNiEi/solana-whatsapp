@@ -12,8 +12,15 @@ export class Room {
     get key() {
         return this.publicKey.toBase58();
     }
+    get group_author() {
+        return this.author.toBase58();
+    }
     get raw_public_key() {
         return this.publicKey;
+    }
+    get formatted_key() {
+        const key = this.publicKey.toBase58();
+        return key.substring(0, 8) + "...." +  key.substring(key.length - 8)
     }
     get group_name() {
         return this.name;

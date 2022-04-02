@@ -24,16 +24,12 @@
 <script setup>
 import ChatMessage from "../components/ChatMessage.vue";
 import { useRoomStore } from "../stores/room";
-import { fetchMessages } from "../api";
-import { storeToRefs } from "pinia";
-import { getCurrentInstance, ref } from "vue";
+import { computed } from "vue";
 import MainFooter from '../components/MainFooter.vue'
 
 
 const store = useRoomStore();
-const chats = ref([])
-
-store.getChats().then(() => chats.value = store.currentChatList)
+const chats = computed(() => store.currentChatList)
 
 </script>
 

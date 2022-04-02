@@ -1,21 +1,24 @@
  <template>
   <q-toolbar>
-    <q-btn flat round dense @click="toggleRightDrawer" class="q-mx-sm">
+    <q-btn
+      v-if="store.currentRoom != null"
+      flat
+      round
+      dense
+      @click="toggleRightDrawer"
+      class="q-mx-sm"
+    >
       <q-avatar>
-        <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+        <img :src="avatarUrl" />
       </q-avatar>
     </q-btn>
-    <q-toolbar-title>hello</q-toolbar-title>
+    <q-toolbar-title>{{ heading }}</q-toolbar-title>
 
-    <q-btn dense flat round icon="search" class="q-mx-md" />
-    <q-btn flat round dense icon="more_vert" class="q-mx-md">
-      <q-menu fit>
+    <q-btn v-if="store.currentRoom != null" flat round dense icon="more_vert" class="q-mx-md">
+      <q-menu fit auto-close>
         <q-list style="min-width: 170px">
-          <q-item clickable>
+          <q-item clickable @click="toggleRightDrawer">
             <q-item-section>Group Info</q-item-section>
-          </q-item>
-          <q-item clickable>
-            <q-item-section>Exit Group</q-item-section>
           </q-item>
           <q-item clickable class="text-red">
             <q-item-section>Delete Group</q-item-section>
@@ -28,4 +31,11 @@
  
 <script setup>
 import { toggleRightDrawer } from "../composables/useRightDrawerState";
+import { useRoomStore } from "../stores/room";
+import { computed } from "vue";
+
+const store = useRoomStore();
+
+const heading = computed(() => store.currentRoomName);
+const avatarUrl = computed(() => store.currentRoomAvatar);
 </script> 

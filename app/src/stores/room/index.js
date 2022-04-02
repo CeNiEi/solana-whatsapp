@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { fetchMessages } from 'src/api';
 
 export const useRoomStore = defineStore('roomId', {
   state: () => ({
@@ -7,19 +6,32 @@ export const useRoomStore = defineStore('roomId', {
     chatStream: [],
   }),
   getters: {
-    currentRoomId: (state) => state.currentRoom.raw_publickey,
+    currentRoomId: (state) => {
+      if (state.currentRoom === null)
+        return "";
+      return state.currentRoom.key
+    },
+    currentRoomName: (state) => {
+      if (state.currentRoom === null)
+        return "";
+      return state.currentRoom.group_name
+    },
     currentChatList: (state) => state.chatStream.sort((a, b) => a.timestamp - b.timestamp),
-  },
-  actions: {
-    changeCurrentRoom(newRoom) {
-      this.currentRoom = newRoom;
+    currentRoomAvatar: (state) => {
+      if (state.currentRoom === null)
+        return "";
+      return `https://dicebear.com/api/identicon/${state.currentRoom.key}.svg`
     },
-    async getChats() {
-      const chats = await fetchMessages(this.currentRoom.raw_publickey);
-      this.chatStream = chats
+    currentRoomAuthor: (state) => {
+      if (state.currentRoom === null)
+        return "";
+      return state.currentRoom.group_author;
     },
-    addChat(newChat) {
-      this.chatStream.push(newChat)
+    currentRoomTime: (state) => {
+      if (state.currentRoom === null)
+        return "";
+      return state.currentRoom.created_at;
     }
-  },
+
+  }
 });

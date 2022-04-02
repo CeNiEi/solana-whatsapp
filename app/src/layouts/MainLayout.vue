@@ -8,7 +8,7 @@
       <LeftDrawer />
     </q-drawer>
 
-    <q-drawer v-model="rightDrawerOpen" side="right" bordered>
+    <q-drawer :width="400" v-model="rightDrawerOpen" side="right" bordered>
       <RightDrawer />
     </q-drawer>
 

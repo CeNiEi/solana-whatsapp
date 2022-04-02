@@ -34,6 +34,10 @@ pub mod clone_whatsapp {
             return Err(ErrorCode::ContentTooLong.into());
         }
 
+        if name.chars().count() > 256 {
+            return Err(ErrorCode::ContentTooLong.into());
+        }
+
         room.author = *author.key;
         room.name = name;
         room.timestamp = clock.unix_timestamp;

@@ -9,12 +9,27 @@
         dense
         type="textarea"
         v-model="content"
+        :readonly="loading"
       >
         <template v-slot:before>
           <q-btn size="lg" flat round dense icon="insert_emoticon" />
         </template>
         <template v-slot:after>
-          <q-btn size="lg" flat round dense icon="send" type="subimt" @click="send" />
+          <q-btn
+            size="lg"
+            flat
+            round
+            dense
+            icon="send"
+            :loading="loading"
+            type="submit"
+            :disable="loading"
+            @click="send"
+          >
+            <template v-slot:loading>
+              <q-spinner-gears />
+            </template>
+          </q-btn>
         </template>
       </q-input>
     </q-toolbar-title>
@@ -24,18 +39,34 @@
 <script setup>
 import { useWallet } from "solana-wallets-vue";
 import { ref, computed } from "vue";
-import { sendMessage } from '../api';
+import { sendMessage } from "../api";
 import { useRoomStore } from "../stores/room";
+import { useQuasar } from "quasar";
+
+const $q = useQuasar();
 
 const store = useRoomStore();
 
 const content = ref("");
 const canSendMessage = computed(() => content.value);
+const loading = ref(false);
 
 const send = async () => {
   if (!canSendMessage.value) return;
-  const newChat = await sendMessage(content.value, store.currentRoomId);
-  store.addChat(newChat)
-  content.value = "";
+  loading.value = true;
+  try {
+    const newChat = await sendMessage(content.value, store.currentRoom.raw_public_key);
+    store.$patch((state) => {
+      state.chatStream.push(newChat);
+    });
+  } catch (err) {
+    console.log(err)
+    $q.dialog({
+      title: "Request Aborted",
+    });
+  } finally {
+    loading.value = false;
+    content.value = "";
+  }
 };
 </script>
