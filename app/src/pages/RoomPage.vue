@@ -15,9 +15,8 @@
     </div>
 
     <q-footer bordered class="bg-primary text-white">
-      <MainFooter/>
+      <MainFooter />
     </q-footer>
-
   </q-page>
 </template>
 
@@ -25,17 +24,16 @@
 import ChatMessage from "../components/ChatMessage.vue";
 import { useRoomStore } from "../stores/room";
 import { computed } from "vue";
-import MainFooter from '../components/MainFooter.vue'
-
+import MainFooter from "../components/MainFooter.vue";
 
 const store = useRoomStore();
-const chats = computed(() => store.currentChatList)
-
+const chats = computed(() => store.currentChatList);
 </script>
 
-<style lang="sass">
-.my-emoji
-  vertical-align: middle
-  height: 2em
-  width: 2em
+<style lang="scss">
+.my-emoji {
+  vertical-align: middle;
+  height: 2em;
+  width: 2em;
+}
 </style>

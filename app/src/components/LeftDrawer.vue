@@ -1,7 +1,10 @@
 <template>
   <div class="q-pa-none">
+    <div v-if="!connected" class="absolute-bottom">
+      <wallet-multi-button />
+    </div>
     <q-scroll-area
-      v-if="connected && !newGroup"
+      v-if="!newGroup && !profile"
       style="margin-top: 50px; height: 600px"
       :thumb-style="{
         borderRadius: '5px',
@@ -12,31 +15,42 @@
     >
       <RoomsList :rooms="rooms" />
     </q-scroll-area>
-    <div v-else-if="!connected" class="absolute-bottom">
-      <wallet-multi-button />
-    </div>
-    <NewGroupForm v-else @added="addNewRoom" @toggle-new-group="toggleNewGroup"/>
+    <NewGroupForm
+      v-else-if="!profile"
+      @added="addNewRoom"
+      @toggle-new-group="toggleNewGroup"
+    />
+    <ProfileSec v-else />
 
     <q-toolbar class="bg-primary text-white absolute-top" style="height: 50px">
-      <q-btn flat round class="q-mx-xs">
+      <q-btn flat round class="q-mx-xs" @click="profile = true">
         <q-avatar>
           <img :src="avatarUrl" />
         </q-avatar>
       </q-btn>
       <q-toolbar-title> </q-toolbar-title>
 
-      <q-btn flat round dense icon="more_vert" class="q-mx-xs">
+      <q-btn v-if="!profile" flat round dense icon="more_vert" class="q-mx-xs">
         <q-menu fit auto-close>
           <q-list style="min-width: 170px">
             <q-item clickable @click="newGroup = true">
               <q-item-section>New Chat Room</q-item-section>
             </q-item>
-            <q-item clickable>
+            <q-item clickable @click="resetRoom" :to="{ name: 'Home' }">
               <q-item-section>About</q-item-section>
             </q-item>
           </q-list>
         </q-menu>
       </q-btn>
+      <q-btn
+        v-else
+        flat
+        round
+        dense
+        icon="close"
+        class="q-mx-xs"
+        @click="profile = false"
+      />
     </q-toolbar>
   </div>
 </template>
@@ -47,8 +61,10 @@ import { useWorkspace } from "../composables";
 import { WalletMultiButton, useWallet } from "solana-wallets-vue";
 import { fetchRooms } from "../api";
 import RoomsList from "./RoomsList.vue";
-import NewGroupForm from './NewGroupForm.vue'
-import { toggleRightDrawer } from '../composables'
+import NewGroupForm from "./NewGroupForm.vue";
+import { toggleRightDrawer } from "../composables";
+import { useRoomStore } from "../stores/room";
+import ProfileSec from "./ProfileSec.vue";
 
 /*
   wallet related stuff
@@ -63,14 +79,14 @@ const avatarUrl = computed(() => {
   if (!wallet.value)
     return "https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg";
   const seed = wallet.value.publicKey.toBase58();
-  return `https://dicebear.com/api/human/${seed}.svg`;
+  return `https://dicebear.com/api/adventurer/${seed}.svg`;
 });
 
 /*
   rooms list
 */
 const rooms = ref([]);
-const newGroup = ref(false)
+const newGroup = ref(false);
 
 fetchRooms().then((fetchedRooms) => (rooms.value = fetchedRooms));
 
@@ -80,14 +96,29 @@ const addNewRoom = (Group) => {
 
 const toggleNewGroup = () => {
   newGroup.value = false;
-}
+};
+
+/*
+profile
+*/
+const profile = ref(false);
+
+/*
+  reset the room state
+*/
+const store = useRoomStore();
+const resetRoom = () => {
+  store.$patch((state) => {
+    state.currentRoom = null;
+    state.chatStream = [];
+  });
+};
 </script>
 
 <style lang="scss">
-
 .my-btn {
-position: relative;
-transform: translateX(50%);
+  position: relative;
+  transform: translateX(50%);
 }
 
 .swv-dropdown {

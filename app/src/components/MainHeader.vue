@@ -20,9 +20,6 @@
           <q-item clickable @click="toggleRightDrawer">
             <q-item-section>Group Info</q-item-section>
           </q-item>
-          <q-item clickable class="text-red">
-            <q-item-section>Delete Group</q-item-section>
-          </q-item>
         </q-list>
       </q-menu>
     </q-btn>

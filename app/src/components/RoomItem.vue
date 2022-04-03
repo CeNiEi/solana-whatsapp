@@ -13,7 +13,7 @@
     </q-item-section>
 
     <q-item-section>
-      <q-item-label lines="1">{{ room.name }}</q-item-label>
+      <q-item-label lines="1" class="text-primary text-uppercase">{{ room.name }}</q-item-label>
       <q-item-label caption lines="2">
         <span class="text-weight-bold">{{ room.formatted_key }}</span>
       </q-item-label>

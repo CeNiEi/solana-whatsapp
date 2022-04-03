@@ -27,21 +27,25 @@ describe('clone-whatsapp', () => {
 
     for (var i = 0; i <= 10; ++i) {
       const message = anchor.web3.Keypair.generate();
+      const other = anchor.web3.Keypair.generate();
+      const signature = await program.provider.connection.requestAirdrop(other.publicKey, 1000000000);
+      await program.provider.connection.confirmTransaction(signature);
+
       const res = await program.rpc.sendMessage('temp', room.publicKey, {
         accounts: {
           message: message.publicKey,
-          author: program.provider.wallet.publicKey,
+          author: other.publicKey,
           systemProgram: anchor.web3.SystemProgram.programId,
         },
         signers: [
-          message
+          message, other
         ],
       });
 
       //await program.provider.connection.confirmTransaction(res, 'confirmed')
-      
+
       const messageRes = await program.account.message.fetch(message.publicKey);
-      assert.equal(messageRes.author.toBase58(), program.provider.wallet.publicKey.toBase58())
+      assert.equal(messageRes.author.toBase58(), other.publicKey.toBase58())
     }
 
     const messages = await program.account.message.all();
@@ -65,27 +69,6 @@ describe('clone-whatsapp', () => {
     const messageAccounts = await program.account.message.all();
     assert.equal(messageAccounts.length, 11);
 
-    messageAccounts.forEach((acc) => {
-      assert.equal(acc.account.author.toBase58(), program.provider.wallet.publicKey.toBase58());
-    })
-
-  });
-
-  it('can filter messages by author', async () => {
-    const authorPublicKey = program.provider.wallet.publicKey
-    const messageAccounts = await program.account.message.all([
-      {
-        memcmp: {
-          offset: 8,
-          bytes: authorPublicKey.toBase58(),
-        }
-      }
-    ]);
-
-    assert.equal(messageAccounts.length, 11);
-    assert.ok(messageAccounts.every(messageAccount => {
-      return messageAccount.account.author.toBase58() === authorPublicKey.toBase58()
-    }))
   });
 
 });
