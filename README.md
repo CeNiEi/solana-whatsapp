@@ -1,8 +1,11 @@
 # solana-whatsapp
 
-A Simple WhatsApp Clone which uses Solana to send Messages.
+A Simple WhatsApp Clone which is powered by Solana
 
-Currently supports only Phantom Wallet
+Allows the user to create a Group, send and view messages in any group.
+
+
+**Currently supports only Phantom Wallet**
 
 ![image](https://user-images.githubusercontent.com/52526849/161444795-708756b3-5eb7-4ec8-874c-7c9af31fae80.png)
 
