@@ -14,3 +14,6 @@ Currently supports only Phantom Wallet
 
 
 ![image](https://user-images.githubusercontent.com/52526849/161444972-263fd998-8dab-4177-9e52-f61ac1642067.png)
+
+
+The avatars were taken from the DiceBear api -> [adventurer](https://avatars.dicebear.com/styles/adventurer) and [identicon](https://avatars.dicebear.com/styles/identicon)
