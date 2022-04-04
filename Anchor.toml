@@ -3,12 +3,17 @@ seeds = false
 [programs.localnet]
 clone_whatsapp = "7XXgV81GPUBL2YMZV32cD2C6NtjsqDZP2EmdNdJoZY3h"
 
+[programs.devnet]
+clone_whatsapp = "7XXgV81GPUBL2YMZV32cD2C6NtjsqDZP2EmdNdJoZY3h"
+
+
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/home/ceniei/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+copy-idl = "mkdir -p app/src/idl && cp target/idl/clone_whatsapp.json app/src/idl/clone_whatsapp.json"

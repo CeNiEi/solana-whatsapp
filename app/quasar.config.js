@@ -73,6 +73,10 @@ module.exports = configure(function (ctx) {
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
 
+      env: {
+        CLUSTER_URL: (process.env.D_MODE == 'devnet') ? "https://api.devnet.solana.com" : "http://127.0.0.1:8899"
+      },
+
       chainWebpack(chain) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }]);
