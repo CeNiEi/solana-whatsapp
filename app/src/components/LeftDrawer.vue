@@ -23,14 +23,14 @@
     <ProfileSec v-else />
 
     <q-toolbar class="bg-primary text-white absolute-top" style="height: 50px">
-      <q-btn flat round class="q-mx-xs" @click="profile = true">
+      <q-btn v-if="connected" flat round class="q-mx-xs" @click="profile = true">
         <q-avatar>
           <img :src="avatarUrl" />
         </q-avatar>
       </q-btn>
       <q-toolbar-title> </q-toolbar-title>
 
-      <q-btn v-if="!profile" flat round dense icon="more_vert" class="q-mx-xs">
+      <q-btn v-if="connected && !profile" flat round dense icon="more_vert" class="q-mx-xs">
         <q-menu fit auto-close>
           <q-list style="min-width: 170px">
             <q-item clickable @click="newGroup = true">
@@ -43,7 +43,7 @@
         </q-menu>
       </q-btn>
       <q-btn
-        v-else
+        v-else-if="connected"
         flat
         round
         dense
@@ -116,11 +116,6 @@ const resetRoom = () => {
 </script>
 
 <style lang="scss">
-.my-btn {
-  position: relative;
-  transform: translateX(50%);
-}
-
 .swv-dropdown {
   width: 100%;
 }
