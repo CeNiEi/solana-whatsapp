@@ -1,28 +1,7 @@
 <template>
   <div class="q-pa-none">
-    <div v-if="!connected" class="absolute-bottom">
-      <wallet-multi-button />
-    </div>
-    <q-scroll-area
-      v-if="!newGroup && !profile"
-      style="margin-top: 50px; height: 600px"
-      :thumb-style="{
-        borderRadius: '5px',
-        background: '#26A69A',
-        width: '4px',
-        opacity: 1,
-      }"
-    >
-      <RoomsList :rooms="rooms" />
-    </q-scroll-area>
-    <NewGroupForm
-      v-else-if="!profile"
-      @added="addNewRoom"
-      @toggle-new-group="toggleNewGroup"
-    />
-    <ProfileSec v-else />
 
-    <q-toolbar class="bg-primary text-white absolute-top" style="height: 50px">
+    <q-toolbar class="bg-primary text-white" style="height: 50px">
       <q-btn v-if="connected" flat round class="q-mx-xs" @click="profile = true">
         <q-avatar>
           <img :src="avatarUrl" />
@@ -52,7 +31,29 @@
         @click="profile = false"
       />
     </q-toolbar>
-  </div>
+ 
+    <div v-if="!connected" class="absolute-bottom">
+      <wallet-multi-button />
+    </div>
+    <q-scroll-area
+      v-else-if="!newGroup && !profile && connected"
+      style="height: 600px;"
+      :thumb-style="{
+        borderRadius: '5px',
+        background: '#26A69A',
+        width: '4px',
+        opacity: 1,
+      }"
+    >
+      <RoomsList :rooms="rooms" />
+    </q-scroll-area>
+    <NewGroupForm
+      v-else-if="!profile"
+      @added="addNewRoom"
+      @toggle-new-group="toggleNewGroup"
+    />
+    <ProfileSec v-else/>
+ </div>
 </template>
 
 <script setup>

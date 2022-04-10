@@ -1,14 +1,14 @@
 <template>
   <q-layout view="lHr lpr lFr">
-    <q-header bordered class="bg-primary text-white" height-hint="98">
+    <q-header bordered class="bg-primary text-white">
       <MainHeader />
     </q-header>
 
-    <q-drawer :width="400" show-if-above side="left">
+    <q-drawer :width="400" v-model="leftDrawerOpen" side="left">
       <LeftDrawer />
     </q-drawer>
 
-    <q-drawer :width="400" v-model="rightDrawerOpen" side="right" bordered>
+    <q-drawer :width="400" v-model="rightDrawerOpen" side="right" bordered no-swipe-open>
       <RightDrawer />
     </q-drawer>
 
@@ -25,6 +25,10 @@ import RightDrawer from "../components/RightDrawer.vue";
 import MainHeader from "../components/MainHeader.vue";
 import MainFooter from "../components/MainFooter.vue";
 import { toggleRightDrawer, rightDrawerOpen } from "../composables";
+
+import { ref } from 'vue';
+
+const leftDrawerOpen = ref(true)
 </script>
 
 <style lang="scss">

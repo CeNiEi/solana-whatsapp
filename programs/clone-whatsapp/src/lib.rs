@@ -46,6 +46,17 @@ pub mod clone_whatsapp {
         Ok(())
 
     }
+
+    pub fn delete_message(_ctx: Context<DeleteMessage>) -> ProgramResult {
+        Ok(())
+    }
+}
+
+#[derive(Accounts)]
+pub struct DeleteMessage<'info> {
+    #[account(mut, has_one = author, close = author)]
+    pub message: Account<'info, state::Message>,
+    pub author: Signer<'info>
 }
 
 #[derive(Accounts)]

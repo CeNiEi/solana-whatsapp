@@ -1,8 +1,8 @@
 {
   "name": "package",
   "version": "0.0.1",
-  "description": "A Quasar Project",
-  "productName": "Quasar App",
+  "description": "A WhatsApp clone powered by Solana",
+  "productName": "SolWApp",
   "author": "CeNiEi",
   "private": true,
   "scripts": {

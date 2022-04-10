@@ -11,7 +11,6 @@ describe('clone-whatsapp', () => {
 
   it('can create a room and send a new message', async () => {
 
-    const message = anchor.web3.Keypair.generate();
     const room = anchor.web3.Keypair.generate();
 
     await program.rpc.createRoom('second_group_name', 'second_group_desc', {
@@ -68,6 +67,45 @@ describe('clone-whatsapp', () => {
   it('can fetch all messages', async () => {
     const messageAccounts = await program.account.message.all();
     assert.equal(messageAccounts.length, 11);
+
+  });
+
+  it('can delete a message', async () => {
+
+    const room = anchor.web3.Keypair.generate();
+
+    await program.rpc.createRoom('second_group_name', 'second_group_desc', {
+      accounts: {
+        room: room.publicKey,
+        author: program.provider.wallet.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      },
+      signers: [
+        room
+      ]
+    });
+
+    const message = anchor.web3.Keypair.generate();
+    await program.rpc.sendMessage('temp', room.publicKey, {
+      accounts: {
+        message: message.publicKey,
+        author: program.provider.wallet.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      },
+      signers: [
+        message
+      ],
+    });
+
+    await program.rpc.deleteMessage({
+      accounts: {
+        message: message.publicKey, 
+        author: program.provider.wallet.publicKey
+      }
+    })
+
+    const messageAccount = await program.account.message.fetchNullable(message.publicKey);
+    assert.ok(messageAccount === null)
 
   });
 

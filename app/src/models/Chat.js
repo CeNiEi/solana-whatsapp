@@ -11,6 +11,9 @@ export class Chat {
     get key() {
         return this.publicKey.toBase58();
     }
+    get raw_public_key() {
+        return this.publicKey;
+    }
     get chat_author() {
         return this.author.toBase58();
     }

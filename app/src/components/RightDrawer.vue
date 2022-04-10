@@ -11,7 +11,7 @@
       <q-toolbar-title> </q-toolbar-title>
     </q-toolbar>
 
-    <div class="column q-gutter-sm items-center q-pa-sm" style="heigth: 600px">
+    <div class="column q-gutter-sm items-center q-pa-sm" style="heigth: calc(100% - 50px)">
       <q-avatar rounded size="200px" class="q-py-lg">
         <img :src="avatarUrl" />
       </q-avatar>
